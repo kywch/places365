@@ -1,0 +1,14 @@
+# leave out data directory
+/data
+
+# leave out fastai link
+/fastai
+
+# leave out checkpoints
+*checkpoints*
+
+# leave out pycache
+*pycache*
+
+# leave out log directories
+/*log*
