@@ -12,3 +12,7 @@
 
 # leave out log directories
 /*log*
+
+# sbatch related 
+/*.out
+/*.err
