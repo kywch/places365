@@ -175,6 +175,8 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, int(128*k), layers[1], stride=2)
         self.layer3 = self._make_layer(block, int(256*k), layers[2], stride=2)
         self.layer4 = self._make_layer(block, int(512*k), layers[3], stride=2)
+        # to increase the resolution of CAM
+        #self.avgpool = nn.AvgPool2d(14)
         self.avgpool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Linear(int(512*k) * block.expansion, num_classes)
 

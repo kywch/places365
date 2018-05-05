@@ -9,4 +9,5 @@ from .pre_resnet import *
 from .resnext import *
 from .inceptionresnetv2 import *
 from .inceptionv4 import *
+from .resnet_CAM import *
 

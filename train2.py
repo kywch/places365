@@ -71,6 +71,7 @@ def get_parser():
     parser.add_argument('--rank', default=0, type=int,
                         help='Used for multi-process training. Can either be manually set ' +
                         'or automatically set by using \'python -m multiproc\'.')
+    parser.add_argument('--num_classes',default=365, type=int, help='num of class in the model')
     return parser
 
 cudnn.benchmark = True
@@ -118,8 +119,8 @@ def main():
     if args.fp16: assert torch.backends.cudnn.enabled, "fp16 mode requires cudnn backend to be enabled."
 
     # create model
-    if args.pretrained: model = pytorch_models.__dict__[args.arch](pretrained=True)
-    else: model = pytorch_models.__dict__[args.arch]()
+    #if args.pretrained: model = pytorch_models.__dict__[args.arch](pretrained=True)
+    model = pytorch_models.__dict__[args.arch](num_classes=args.num_classes)
 
     model = model.cuda()
     n_dev = torch.cuda.device_count()
