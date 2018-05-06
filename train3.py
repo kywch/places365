@@ -41,7 +41,7 @@ def get_parser():
                         help='manual epoch number (useful on restarts)')
     parser.add_argument('-b', '--batch-size', default=256, type=int,
                         metavar='N', help='mini-batch size (default: 256)')
-    parser.add_argument('--lr', '--learning-rate', default=0.1, type=float,
+    parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                         metavar='LR', help='initial learning rate')
     parser.add_argument('--momentum', default=0.9, type=float, metavar='M', help='momentum')
     parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float,
@@ -73,7 +73,7 @@ def get_parser():
     parser.add_argument('--rank', default=0, type=int,
                         help='Used for multi-process training. Can either be manually set ' +
                         'or automatically set by using \'python -m multiproc\'.')
-    parser.add_argument('--num_classes',default=365, type=int, help='num of class in the model')
+    parser.add_argument('--num-classes',default=365, type=int, help='num of class in the model')
     return parser
 
 cudnn.benchmark = True
@@ -404,8 +404,8 @@ class AverageMeter(object):
 
 def adjust_learning_rate(optimizer, epoch):
     """Sets the learning rate to the initial LR decayed by 10 every few epochs"""
-    if   epoch<4 : lr = args.lr/(4-epoch)
-    elif epoch<28: lr = args.lr/1
+    """if   epoch<4 : lr = args.lr/(4-epoch)"""
+    if epoch<28: lr = args.lr/1
     elif epoch<47: lr = args.lr/10
     elif epoch<57: lr = args.lr/100
     else         : lr = args.lr/1000
@@ -415,6 +415,7 @@ def adjust_learning_rate(optimizer, epoch):
 def accuracy(output, target, topk=(1,)):
     """Computes the precision@k for the specified values of k"""
     maxk = max(topk)
+    maxk = min(maxk, args.num_classes)
     batch_size = target.size(0)
 
     _, pred = output.topk(maxk, 1, True, True)
